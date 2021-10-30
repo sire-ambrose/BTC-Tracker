@@ -28,6 +28,7 @@ def display(name):
     
 
     fig.show()
+    st.plotly_chart(fig)
 
     extra_info = st.selectbox('Information',['Yes', 'No'],key=name+'info')
 
@@ -39,6 +40,7 @@ def display(name):
             ''
 for i in name_dict:
     display(i)
+    ''
 
 st.write('\n\n\n\n\n\n')
 st.write('### Contact Developer : ')
