@@ -4,20 +4,20 @@ import yfinance as yf
 st.write("# Stock Analysis")
 '\n'
 
-name_dict={'APPLE':'AAPL', 'Facebook':'FB'}
+name_dict={'BTC':'BTC-USDT', 'Facebook':'FB'}
 
 def display(name):
     st.write("### "+name)
-    get_info=yf.Ticker(name_dict[name])
+    
     '\n'
 
     interval = st.selectbox('Period',['1 day', '5 days', '1 month', '3 months', '6 months', '1 year', '2 years'],key=name+'period')
 
     'You selected: ', interval
-    interval_dict={'1 day':'1d', '5 days':'5d', '1 month':'1mo', '3 months':'3mo', '6 months':'6mo', '1 year':'1y', '2 years':'2y'}
+    period_dict={'1 day':'1d', '5 days':'5d', '1 month':'1mo', '3 months':'3mo', '6 months':'6mo', '1 year':'1y', '2 years':'2y'}
     '\n'
+    data=yf.Ticker(tickers=name_dict[name], period=interval_dict[interval], interval = '15m')
     
-    data=get_info.history(period=interval_dict[interval])
     st.write(data)
 
     fig = go.Figure(data=[go.Candlestick(x=data.index,
