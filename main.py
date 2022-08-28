@@ -4,7 +4,7 @@ import yfinance as yf
 st.write("# Stock Analysis")
 '\n'
 
-name_dict={'BTC':'BTC-USDT', 'Facebook':'FB'}
+name_dict={'BTC':'BTC-USD', 'Facebook':'FB'}
 
 def display(name):
     st.write("### "+name)
