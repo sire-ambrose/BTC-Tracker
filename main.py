@@ -16,9 +16,11 @@ def display(name):
     'You selected: ', period 
     period_dict={'1 day':'1d', '5 days':'5d', '1 month':'1mo', '3 months':'3mo', '6 months':'6mo', '1 year':'1y', '2 years':'2y'}
     '\n'
-    data=yf.download(tickers=name_dict[name], period=period_dict[period], interval = '15m')
     
-    st.write(data)
+    interval= st.selectbox([ '1m','2m','5m','15m','30m','60m','90m','1h','1d','5d','1wk','1mo','3mo'])
+    data=yf.download(tickers=name_dict[name], period=period_dict[period], interval = interval)
+    
+    #st.write(data)
 
     fig = go.Figure(data=[go.Candlestick(x=data.index,
                 open=data['Open'],
