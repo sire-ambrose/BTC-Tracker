@@ -30,14 +30,7 @@ def display(name):
     fig.show()
     st.plotly_chart(fig)
 
-    extra_info = st.selectbox('Information',['Yes', 'No'],key=name+'info')
-
-    'You selected: ', extra_info
-
-    if extra_info == 'Yes':
-        for i in get_info.info.keys():
-            i,' :',get_info.info[i]
-            ''
+ 
 for i in name_dict:
     display(i)
     ''
