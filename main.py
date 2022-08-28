@@ -11,12 +11,12 @@ def display(name):
     
     '\n'
 
-    interval = st.selectbox('Period',['1 day', '5 days', '1 month', '3 months', '6 months', '1 year', '2 years'],key=name+'period')
+    period = st.selectbox('Period',['1 day', '5 days', '1 month', '3 months', '6 months', '1 year', '2 years'],key=name+'period')
 
     'You selected: ', interval
     period_dict={'1 day':'1d', '5 days':'5d', '1 month':'1mo', '3 months':'3mo', '6 months':'6mo', '1 year':'1y', '2 years':'2y'}
     '\n'
-    data=yf.Ticker(tickers=name_dict[name], period=interval_dict[interval], interval = '15m')
+    data=yf.Ticker(tickers=name_dict[name], period=period_dict[period], interval = '15m')
     
     st.write(data)
 
