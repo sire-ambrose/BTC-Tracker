@@ -1,6 +1,6 @@
 plotly==5.3.1
 streamlit==0.88.0
-yfinance==0.1.64
+yfinance==0.1.74
 lightgbm
 pandas
 numpy
