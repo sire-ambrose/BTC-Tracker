@@ -19,7 +19,7 @@ def display(name):
     '\n'
     
     interval= st.selectbox('Interval', [ '1m','2m','5m','15m','30m','60m','90m','1h','1d','5d','1wk','1mo','3mo'])
-    data=yf.download(tickers=name_dict[name], period=period_dict[period], interval = interval)
+    data=yf.download(tickers='BTC', period=period_dict[period], interval = interval)
     
     #st.write(data)
 
