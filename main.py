@@ -36,8 +36,10 @@ def display(name):
     txt=prob()
     st.write(txt[:txt.index('\n')])
     st.write(txt[txt.index('\n')+1:])
-
-display(name_dict['BTC'])
+    
+placeholder= st.empty()
+with placeholder.container():
+    display(name_dict['BTC'])
 
 st.write('\n\n\n\n\n\n')
 st.write('### Contact Developer : ')
