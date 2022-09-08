@@ -8,7 +8,8 @@ st.write("# Bitcoin Tracker")
 
 name_dict={'BTC':'BTC-USD'}
 
-st.write("### "+'BTC-USD')
+name='BTC-USD'
+st.write("### "+name)
 
 '\n'
 
