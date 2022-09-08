@@ -4,7 +4,7 @@ import yfinance as yf
 st.write("# Stock Analysis")
 '\n'
 
-name_dict={'BTC':'BTC-USD', 'Facebook':'FB'}
+name_dict={'BTC':'BTC-USD'}
 
 def display(name):
     st.write("### "+name)
@@ -32,9 +32,8 @@ def display(name):
     fig.show()
     st.plotly_chart(fig)
 
- 
-for i in name_dict:
-    display(i)
+
+display(name_dict['BTC'])
     ''
 
 st.write('\n\n\n\n\n\n')
