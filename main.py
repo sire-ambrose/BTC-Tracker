@@ -2,6 +2,7 @@ import plotly.graph_objects as go
 import streamlit as st
 import yfinance as yf
 from repo import prob
+import time
 st.write("# Bitcoin Tracker")
 '\n'
 
@@ -38,8 +39,10 @@ def display(name):
     st.write(txt[txt.index('\n')+1:])
     
 placeholder= st.empty()
-with placeholder.container():
-    display(name_dict['BTC'])
+while True:
+    with placeholder.container():
+        display(name_dict['BTC'])
+    time.sleep(2)
 
 st.write('\n\n\n\n\n\n')
 st.write('### Contact Developer : ')
