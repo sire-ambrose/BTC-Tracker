@@ -1,6 +1,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 import yfinance as yf
+from repo import prob
 st.write("# Stock Analysis")
 '\n'
 
@@ -31,10 +32,10 @@ def display(name):
 
     fig.show()
     st.plotly_chart(fig)
-
+    '\n'
+    st.write(prob())
 
 display(name_dict['BTC'])
-    ''
 
 st.write('\n\n\n\n\n\n')
 st.write('### Contact Developer : ')
