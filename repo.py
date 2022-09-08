@@ -92,5 +92,5 @@ def prob():
         c+=1
     bear= round(result.median(axis=1).values[0]*100, 2)
 
-    return 'Bullish: '+str(bull)+'%\nBearish: '+str(bear)+ '%'
+    return 'Bullish: '+str(bull)+'%  Bearish: '+str(bear)+ '%'
 print(prob())
