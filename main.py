@@ -42,7 +42,7 @@ placeholder= st.empty()
 while True:
     with placeholder.container():
         display(name_dict['BTC'])
-    time.sleep(2)
+        time.sleep(2)
 
 st.write('\n\n\n\n\n\n')
 st.write('### Contact Developer : ')
