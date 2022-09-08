@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import streamlit as st
 import yfinance as yf
 from repo import prob
-st.write("# Stock Analysis")
+st.write("# Bitcoin Tracker")
 '\n'
 
 name_dict={'BTC':'BTC-USD'}
@@ -33,7 +33,9 @@ def display(name):
     fig.show()
     st.plotly_chart(fig)
     '\n'
-    st.write(prob())
+    txt=prob()
+    st.write(txt[:txt.index('\n')])
+    st.write(txt[txt.index('\n')+1:])
 
 display(name_dict['BTC'])
 
