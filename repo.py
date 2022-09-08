@@ -75,7 +75,7 @@ def get_current():
 
 def prob():
     cv_results={}
-    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl')]
+    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl'), joblib.load('model3.pkl'), joblib.load('model4.pkl')]
     test_x=get_x(get_current())
 
     result=pd.DataFrame()
@@ -92,5 +92,5 @@ def prob():
         c+=1
     bear= round(result.median(axis=1).values[0]*100, 2)
 
-    return 'Bullish: '+str(bull)+'%  Bearish: '+str(bear)+ '%'
+    return 'Bullish: '+str(bull)+'%\nBearish: '+str(bear)+ '%'
 print(prob())
