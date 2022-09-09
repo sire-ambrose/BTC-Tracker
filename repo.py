@@ -26,29 +26,35 @@ def get_x(df):
     df['minutes']= pd.to_datetime(df.time).dt.minute
     df['date']= pd.to_datetime(df.time).dt.date
     df['hour']= pd.to_datetime(df.time).dt.hour
+
+    open= df[['date', 'hour', 'Open']].groupby(['date', 'hour'],  as_index= False).nth([0])
+    open=open['Open'].values.reshape(-1,1)
+
+
     high= df[['date', 'hour', 'High']].groupby(['date', 'hour'], as_index=False).max()['High'].values.reshape(-1, 1)
     low= df[['date', 'hour', 'Low']].groupby(['date', 'hour'], as_index=False).min()['Low'].values.reshape(-1, 1)
-    #hour= df[['date', 'hour', 'minutes']].groupby(['date', 'hour'], as_index=False).min()['hour'].values.reshape(-1, 1)/100
+
+    close= df[['date', 'hour', 'Close']].groupby(['date', 'hour'],  as_index= False).nth([-1])
+    close=close['Close'].values.reshape(-1,1)
 
 
     arr= get_array(df[['Close', 'minutes']])
-    arr= np.concatenate((arr, high[:arr.shape[0], :], low[:arr.shape[0], :]), axis=1)
+    arr= np.concatenate((arr, open[:arr.shape[0], :], high[:arr.shape[0], :], low[:arr.shape[0], :], close[:arr.shape[0], :]), axis=1)
     
 
     columns= [str(i) for i in range(60)]
-    columns.extend(['high', 'low'])
+    columns.extend(['open', 'high', 'low', 'close'])
     arr_df= pd.DataFrame(arr, columns= columns)
-    arr_df['open']= arr_df['59'].shift(1)
     arr_df.dropna(axis=0, inplace=True)
 
     arr_df['high-low']= arr_df['high']-arr_df['low']
-    arr_df['high-59']= arr_df['high']-arr_df['59']
+    arr_df['high-close']= arr_df['high']-arr_df['close']
     arr_df['high-open']= arr_df['high']-arr_df['open']
 
-    arr_df['open-59']= arr_df['open']-arr_df['59']
+    arr_df['open-close']= arr_df['open']-arr_df['close']
     arr_df['open-low']= arr_df['open']-arr_df['low']
 
-    arr_df['59-low']= arr_df['59']-arr_df['low']
+    arr_df['close-low']= arr_df['close']-arr_df['low']
     return arr_df
 
 
@@ -75,7 +81,7 @@ def get_current():
 
 def prob():
     cv_results={}
-    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl'), joblib.load('model3.pkl'), joblib.load('model4.pkl')]
+    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl')]
     test_x=get_x(get_current())
 
     result=pd.DataFrame()
