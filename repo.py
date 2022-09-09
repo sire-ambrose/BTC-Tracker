@@ -10,41 +10,51 @@ def get_array(df):
     arr= np.zeros((1, 60))
 
     feat= np.zeros((1, 60))
-
-    for row in range(df.shape[0]):
-        price= df.iloc[row, 0]
-        column= df.iloc[row, 1]
-        feat[0, column]= price
-        if column== 59:
+    for day in df.date.unique():
+        day_df= df[df['date']==day]
+        for hour in day_df.hour.unique():
+            hour_df= day_df[day_df['hour']==hour]
+            for row in range(hour_df.shape[0]):
+                price= hour_df.iloc[row, 0]
+                column= hour_df.iloc[row, 1]
+                feat[0, column]= price
             arr= np.concatenate((arr, feat), axis=0)
             feat= np.zeros((1, 60))
     return arr[1:, :]
 
 
 def get_x(df):
+    df= df.rename({'Open':'open', 'Close':'close', 'High':'high', 'Low':'low'}, axis=1)
     df['time']= pd.to_datetime(df.time)
     df['minutes']= pd.to_datetime(df.time).dt.minute
     df['date']= pd.to_datetime(df.time).dt.date
     df['hour']= pd.to_datetime(df.time).dt.hour
 
-    open= df[['date', 'hour', 'Open']].groupby(['date', 'hour'],  as_index= False).nth([0])
-    open=open['Open'].values.reshape(-1,1)
+    open= df[['date', 'hour', 'open']].groupby(['date', 'hour'],  as_index= False).nth([0])
+    open=open['open'].values.reshape(-1,1)
 
 
-    high= df[['date', 'hour', 'High']].groupby(['date', 'hour'], as_index=False).max()['High'].values.reshape(-1, 1)
-    low= df[['date', 'hour', 'Low']].groupby(['date', 'hour'], as_index=False).min()['Low'].values.reshape(-1, 1)
+    high= df[['date', 'hour', 'high']].groupby(['date', 'hour'], as_index=False).max()['high'].values.reshape(-1, 1)
+    low= df[['date', 'hour', 'low']].groupby(['date', 'hour'], as_index=False).min()['low'].values.reshape(-1, 1)
 
-    close= df[['date', 'hour', 'Close']].groupby(['date', 'hour'],  as_index= False).nth([-1])
-    close=close['Close'].values.reshape(-1,1)
+    close= df[['date', 'hour', 'close']].groupby(['date', 'hour'],  as_index= False).nth([-1])
+    close=close['close'].values.reshape(-1,1)
 
-
-    arr= get_array(df[['Close', 'minutes']])
-    arr= np.concatenate((arr, open[:arr.shape[0], :], high[:arr.shape[0], :], low[:arr.shape[0], :], close[:arr.shape[0], :]), axis=1)
     
+    arr= get_array(df[['close', 'minutes', 'date', 'hour']])
+    foward_dff=np.diff(arr, n=1)
 
-    columns= [str(i) for i in range(60)]
+    for i in range(2, arr.shape[1]):
+        foward_dff= np.concatenate( (foward_dff, np.diff(arr, n=i) ), axis=1 )
+
+    arr= np.concatenate((arr, open[:arr.shape[0], :], high[:arr.shape[0], :], low[:arr.shape[0], :], close[:arr.shape[0], :]), axis=1)
+
+
+    columns= ['min_'+str(i) for i in range(60)]
+
     columns.extend(['open', 'high', 'low', 'close'])
     arr_df= pd.DataFrame(arr, columns= columns)
+    arr_df= pd.concat([pd.DataFrame(foward_dff), arr_df], axis=1)
     arr_df.dropna(axis=0, inplace=True)
 
     arr_df['high-low']= arr_df['high']-arr_df['low']
@@ -55,6 +65,7 @@ def get_x(df):
     arr_df['open-low']= arr_df['open']-arr_df['low']
 
     arr_df['close-low']= arr_df['close']-arr_df['low']
+    columns= [str(i) for i in range(60)]
     return arr_df
 
 
@@ -81,7 +92,7 @@ def get_current():
 
 def prob():
     cv_results={}
-    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl'), joblib.load('model3.pkl'), joblib.load('model4.pkl')]
+    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl')]
     test_x=get_x(get_current())
 
     result=pd.DataFrame()
