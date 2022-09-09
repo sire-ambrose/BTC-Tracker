@@ -81,7 +81,7 @@ def get_current():
 
 def prob():
     cv_results={}
-    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl')]
+    cv_results["estimator"]=[joblib.load('model0.pkl'), joblib.load('model1.pkl'), joblib.load('model2.pkl'), joblib.load('model3.pkl'), joblib.load('model4.pkl')]
     test_x=get_x(get_current())
 
     result=pd.DataFrame()
