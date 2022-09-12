@@ -37,16 +37,16 @@ def display(name):
     fig.show()
     st.plotly_chart(fig)
     '\n'
-
+    txt=prob()
+    st.write(txt[:txt.index('\n')])
+    st.write(txt[txt.index('\n')+1:])
+    
 placeholder= st.empty()
 while True:
     with placeholder.container():
         display(name_dict['BTC'])
         time.sleep(2)
-    txt=prob()
-    st.write(txt[:txt.index('\n')])
-    st.write(txt[txt.index('\n')+1:])
-    
+
 
 st.write('\n\n\n\n\n\n')
 st.write('### Contact Developer : ')
